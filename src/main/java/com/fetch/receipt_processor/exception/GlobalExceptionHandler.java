@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Handles validation errors (e.g., invalid retailer name, total format)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationExceptions(
             MethodArgumentNotValidException ex, WebRequest request
@@ -29,7 +28,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse(message), HttpStatus.BAD_REQUEST);
     }
 
-    // Handles missing receipts for GET /receipts/{id}/points
     @ExceptionHandler(ReceiptNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleReceiptNotFound(
             ReceiptNotFoundException ex, WebRequest request
@@ -37,11 +35,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse(ex.getMessage()), HttpStatus.NOT_FOUND);
     }
 
-    // Generic error response structure
     @Data
     private static class ErrorResponse {
         private final String message;
-
         public ErrorResponse(String message) {
             this.message = message;
         }
